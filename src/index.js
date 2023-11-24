@@ -1,19 +1,28 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
+/* eslint-disable import/no-extraneous-dependencies */
+import './utils/config'
+
 import express from 'express'
-
-import './helpers/dotenv'
-
-// eslint-disable-next-line import/no-extraneous-dependencies
 import morgan from 'morgan'
+import cors from 'cors'
+import helmet from 'helmet'
 
-const port = parseInt(process.env.PORT, 10) || 3000
+import logger from './utils/logger'
+import router from './routes'
+import { notFound, errorHandler } from './utils/errors'
+
+const port = Number(process.env.PORT)
 
 const app = express()
+
 app.use(morgan(process.env.MORGAN_LOG))
+app.use(cors({ origin: process.env.CORS_ORIGIN }))
+app.use(helmet())
 
-app.get('/', (req, res) => {
-  const title = process.env.TITLE || 'Server'
-  res.send({ msg: title })
+app.use('/', router)
+
+app.use(notFound)
+app.use(errorHandler)
+
+app.listen(port, () => {
+  logger.info(`Server running on port ${port}`)
 })
-
-app.listen(port)
