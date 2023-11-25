@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { Router } from 'express'
 
 import logger from '../utils/logger'

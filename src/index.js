@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import './utils/config'
 
 import express from 'express'
